@@ -20,7 +20,9 @@ def setup():
     GPIO.setup(ledPin , GPIO.OUT)
     GPIO.setup(buttonPin, GPIO.IN , pull_up_down=GPIO.PUD_UP)
     
-    
+def get_ip():
+    cmd = "hostname -I | cut -d\' \' -f1"
+    return check_output(cmd, shell=True).decode("utf-8").strip()
  
  
 def get_cpu_temp():     # get CPU temperature and store it into file "/sys/class/thermal/thermal_zone0/temp"
@@ -58,7 +60,8 @@ def loop():
         if curValue == 1:
             #lcd.clear()
             lcd.setCursor(0,0)
-            lcd.message( 'CPU: ' + get_cpu_temp() )
+            lcd.message( 'CPU: ' + get_cpu_temp() + '\n' )
+            lcd.message( 'IP: ' + get_ip())
             #sleep(1)
            
         if curValue == 2:
